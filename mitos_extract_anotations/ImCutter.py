@@ -1,5 +1,5 @@
-import sys
-sys.path.append('C:/Users/PelaoT/Desktop/Practica/codigo')
+#import sys
+#sys.path.append('C:/Users/PelaoT/Desktop/Practica/codigo')
 
 import io
 import os

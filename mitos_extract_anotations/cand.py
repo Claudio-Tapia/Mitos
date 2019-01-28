@@ -1,5 +1,5 @@
-import sys
-sys.path.append('C:/Users/PelaoT/Desktop/Practica/codigo')
+#import sys
+#sys.path.append('C:/Users/PelaoT/Desktop/Practica/codigo')
 
 from mitos_extract_anotations import candidateSelection as cs
 from common.utils import listFiles

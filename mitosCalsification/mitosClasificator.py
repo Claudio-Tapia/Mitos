@@ -2,6 +2,7 @@ import sys
 import time
 
 sys.path.append('C:/Users/PelaoT/Desktop/Practica/codigo')
+sys.path.append('C:/Users/PelaoT/PycharmProjects/FeatureMusic/venv/Lib/site-packages/docu')
 
 import numpy as np
 from keras import backend as K
@@ -20,13 +21,12 @@ from mitosCalsification.End_training_callback import End_training_callback
 from mitosCalsification.MitosTester import MitosTester
 from mitosCalsification.plot import print_plots, dump_metrics_2_file, plot_roc, plot_precision_recall
 
-#from doqu.Bagging import Bagging
+#from doqu import Bagging
 #from models.Bagging import Bagging
 from models.SimpleModel import create_fel_res, create_simple_model, create_simple2
 import json
 
 from models.SqueezeNet import create_squeeze_net
-
 
 def save_model(model, name):
     json_string = model.get_config()
@@ -36,12 +36,13 @@ def save_model(model, name):
     file.close()
     model.save_weights('./saved_models/' + name + '_weights.h5')
 
-
 def load_model(name):
     file = open('./saved_models/' + name + '.json')
     json_string = file.read()
+
     file.close()
     model_config = json.loads(json_string)
+
     if isinstance(model_config, dict):
         model = Model.from_config(model_config)
     else:
@@ -53,14 +54,12 @@ def load_model(name):
                   metrics=[metrics.mitos_fscore])
     return model
 
-
 def save_bagging_model(bagging):
     i = 1
     for estimator in bagging.estimators:
         model_base_name = 'model' + str(i)
         save_model(estimator, model_base_name)
         i += 1
-
 
 def load_bagging_model():
     filter = ['model*.json']
@@ -77,11 +76,10 @@ def load_bagging_model():
     bag.set_estimator(estimators)
     return bag
 
-
 def load_test_data():
     if sys.platform == 'win32':
-        cand_path = 'D:/dataset/test/no-mitosis/candidates.tar'
-        mit_path = 'D:/dataset/test/mitosis/'
+        cand_path = 'C:/Users/PelaoT/Desktop/Practica/dataset/test/no-mitosis/candidates.tar'
+        mit_path = 'C:/Users/PelaoT/Desktop/Practica/dataset/test/mitosis/'
     else:
         cand_path = '/home/facosta/dataset/test/no-mitosis/candidates.tar'
         mit_path = '/home/facosta/dataset/test/mitosis/'
@@ -92,7 +90,6 @@ def load_test_data():
     yt_cat = np_utils.to_categorical(yt)
 
     return xt, yt
-
 
 def _get_class_weights(labels):
     import math
@@ -110,7 +107,6 @@ def _get_class_weights(labels):
         i += 1
 
     return weight_dict
-
 
 class MitosisClasificatorTrainer:
     def __init__(self, model,
@@ -250,7 +246,6 @@ class MitosisClasificatorTrainer:
 
         print('test_fscore: {:.4f}'.format(self.iteration_test_fscore), flush=True)
 
-
 def train_model(ratio, use_all):
     selection = True
     if use_all:
@@ -300,7 +295,6 @@ def train_model(ratio, use_all):
     save_model(model, 'model1')
     K.clear_session()
 
-
 def _do_test(model, xt, yt):
     if isinstance(model, Bagging):
         yt2 = np.argmax(yt, axis=1)
@@ -321,7 +315,7 @@ def _do_test(model, xt, yt):
 
 def test_model():
     import time
-    model = load_model('b_model')
+    model = load_model("b_model")
     # xt, yt = load_test_data()
     #
     # fscore, prec, res_round, res = _do_test(model, xt, yt)

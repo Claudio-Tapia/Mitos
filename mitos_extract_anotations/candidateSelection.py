@@ -8,13 +8,11 @@ from mitos_extract_anotations import ImCutter as cut
 import json
 import numpy as np
 
-
 def join_path(path, add):
     if path[len(path) - 1] != '/':
         return path + '/' + add
     else:
         return path + add
-
 
 def get_center(rectangle):
     x,y,w,h = rectangle
@@ -22,7 +20,6 @@ def get_center(rectangle):
     cx = int(x + w / 2)
     cy = int(y + h / 2)
     return cx, cy
-
 
 def morph_extract(im):
     im_copy = np.copy(im)
@@ -48,7 +45,7 @@ def morph_extract(im):
     # cv2.imwrite('C:/Users/felipe/b.png', thresh)
 
 
-    _,contours,_= cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    contours,_= cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     # cv2.imshow('hol',thresh)
     # cv2.waitKey()
 
@@ -70,7 +67,6 @@ def morph_extract(im):
 
     # cv2.imwrite('C:/Users/felipe/b.png', im2)
     return candidates
-
 
 class Candidates_extractor_params:
     def __init__(self, file_list):
@@ -234,7 +230,6 @@ class Candidates_extractor:
             file.write(json_string)
 
         print('Total de candidatos: {}'.format(self.candidates_count))
-
 
 if __name__ == "__main__":
     filter = ['*.bmp', '*.png', '*.jpg']

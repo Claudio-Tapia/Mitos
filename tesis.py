@@ -175,6 +175,7 @@ if argc <= 1:
     parser.print_help()
 else:
     args = parser.parse_args()
+
     args.func(args)
 
 if __name__ == '__main__':
